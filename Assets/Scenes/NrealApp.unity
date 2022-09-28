@@ -258,6 +258,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 19805392}
   m_CullTransparentMesh: 1
+--- !u!1 &86320458 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1713578656367708, guid: 665d8158924bd2648a94fb3f87691bbb, type: 3}
+  m_PrefabInstance: {fileID: 2133802837}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &86320462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 86320458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c49b4cc203aa6414fae5c798d1d0e7d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EventMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_MaxRayIntersections: 0
 --- !u!1 &965420668
 GameObject:
   m_ObjectHideFlags: 0
@@ -518,7 +539,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b031b37cf5219041afef28833270f68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _websocketUrl: ws://192.168.68.128:9999
+  _websocketUrl: ws://192.168.68.146:9999
+  _websocketPort: 9999
   _centerAnchor: {fileID: 2133802838}
   _resetButton: {fileID: 2101420899}
   _imageTrackedButton: {fileID: 1677356512}
@@ -658,7 +680,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1677356511
 RectTransform:
   m_ObjectHideFlags: 0
@@ -847,7 +869,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2101420898
 RectTransform:
   m_ObjectHideFlags: 0

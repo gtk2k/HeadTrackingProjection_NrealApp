@@ -10,33 +10,39 @@
     "m_KnownPackagesForSerialization": [
         {
             "deviceId": "M5AIKN006467A9J",
-            "name": "ai.nreal.nebula.universal",
-            "processId": 12266,
+            "name": "com.DefaultCompany.HeadTrackingProjection_NrealApp",
+            "processId": 16107,
+            "exited": true
+        },
+        {
+            "deviceId": "M5AIKN006467A9J",
+            "name": "com.android.settings",
+            "processId": 13598,
             "exited": false
         },
         {
             "deviceId": "M5AIKN006467A9J",
-            "name": "com.DefaultCompany.HeadTrackingProjection_NrealApp",
-            "processId": 13586,
+            "name": "ai.nreal.nebula.universal:space",
+            "processId": 22292,
             "exited": true
         },
         {
             "deviceId": "M5AIKN006467A9J",
             "name": "com.DefaultCompany.HeadTrackingProjection_NrealApp",
-            "processId": 14810,
+            "processId": 23574,
             "exited": true
         },
         {
             "deviceId": "M5AIKN006467A9J",
             "name": "com.DefaultCompany.HeadTrackingProjection_NrealApp",
-            "processId": 15240,
+            "processId": 23899,
             "exited": true
         },
         {
             "deviceId": "M5AIKN006467A9J",
             "name": "com.DefaultCompany.HeadTrackingProjection_NrealApp",
-            "processId": 16107,
-            "exited": true
+            "processId": 24301,
+            "exited": false
         }
     ],
     "m_Tags": {

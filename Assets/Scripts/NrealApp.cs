@@ -14,7 +14,7 @@ public class NrealApp : MonoBehaviour
 
     private List<NRTrackableImage> _markers;
 
-    private WebSocketManager _wsManager;
+    //private WebSocketManager _wsManager;
     private WebSocketServerManager _wssManager;
     private Pose _markerPose;
 
@@ -30,13 +30,15 @@ public class NrealApp : MonoBehaviour
 
     private void Start()
     {
+        Debug.Log($"Start()");
+
         _markers = new List<NRTrackableImage>();
         _state = AppState.None;
 
-        _wsManager = new WebSocketManager(_websocketUrl);
-        _wsManager.OnOpen += _wsManager_OnOpen;
-        _wsManager.OnClose += _wsManager_OnClose;
-        _wsManager.OnError += _wsManager_OnError;
+        //_wsManager = new WebSocketManager(_websocketUrl);
+        //_wsManager.OnOpen += _wsManager_OnOpen;
+        //_wsManager.OnClose += _wsManager_OnClose;
+        //_wsManager.OnError += _wsManager_OnError;
 
         _wssManager = new WebSocketServerManager(_websocketPort);
         _wssManager.OnClientConnected += _wssManager_OnClientConnected;
@@ -47,44 +49,50 @@ public class NrealApp : MonoBehaviour
         // Debug
         _imageTrackedButton.onClick.AddListener(() =>
         {
+            Debug.Log($"imageTrackedButton.onClick");
             _markerPose = new Pose
             {
                 position = new Vector3(0f, 0f, -3f),
                 rotation = Quaternion.identity
             };
-            _wsManager.SendPose(WebSocketManager.MessageType.MarkerPose, _markerPose.position, _markerPose.rotation);
+            //_wsManager.SendPose(WebSocketManager.MessageType.MarkerPose, _markerPose.position, _markerPose.rotation);
+            _wssManager.SendPose(WebSocketServerManager.MessageType.MarkerPose, _markerPose.position, _markerPose.rotation);
             _state = AppState.Stage;
         });
         _resetButton.onClick.AddListener(() =>
         {
-            _wsManager.SendAppReset();
+            Debug.Log($"_resetButton.onClick");
+            //_wsManager.SendAppReset();
+            _wssManager.SendAppReset();
             _state = AppState.MarkerTracking;
         });
     }
 
-    private void _wsManager_OnError(System.Exception ex)
-    {
-        Debug.Log($"_wsManager_OnError > {ex.Message}");
-    }
+    //private void _wsManager_OnError(System.Exception ex)
+    //{
+    //    Debug.Log($"_wsManager_OnError > {ex.Message}");
+    //}
 
-    private void _wsManager_OnClose(ushort code, string reason)
-    {
-        Debug.Log($"_wsManager_OnClose > code: {code}, reason: {reason}");
-    }
-
-    private void _wssManager_OnClientError(string arg1, System.Exception arg2)
-    {
-        Debug.Log($"_wssManager_OnClientError");
-    }
-
-    private void _wssManager_OnClientClosed(string arg1, ushort arg2, string arg3)
-    {
-        throw new System.NotImplementedException();
-    }
+    //private void _wsManager_OnClose(ushort code, string reason)
+    //{
+    //    Debug.Log($"_wsManager_OnClose > code: {code}, reason: {reason}");
+    //}
 
     private void _wssManager_OnClientConnected(string id)
     {
         Debug.Log($"_wssManager_OnClientConnected > id:{id}");
+        EnableImageTracking();
+        _wssManager.SendAppReset();
+    }
+
+    private void _wssManager_OnClientClosed(string id, ushort code, string reason)
+    {
+        Debug.Log($"_wssManager_OnClientClosed > id: {id}, code:{code}, reason:{reason}");
+    }
+
+    private void _wssManager_OnClientError(string id, System.Exception ex)
+    {
+        Debug.Log($"_wssManager_OnClientError > id: {id}, message: {ex.Message}");
     }
 
     private void Update()
@@ -95,24 +103,40 @@ public class NrealApp : MonoBehaviour
         }
         if(_state == AppState.Stage)
         {
-            _wsManager.SendPose(WebSocketManager.MessageType.PlayerPose, _centerAnchor.transform.position, _centerAnchor.transform.rotation);
+            //_wsManager.SendPose(WebSocketManager.MessageType.PlayerPose, _centerAnchor.transform.position, _centerAnchor.transform.rotation);
+            _wssManager.SendPose(WebSocketServerManager.MessageType.PlayerPose, _centerAnchor.transform.position, _centerAnchor.transform.rotation);
+        }
+
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            Debug.Log($"imageTrackedButton.onClick");
+            _markerPose = new Pose
+            {
+                position = new Vector3(0f, 0f, -3f),
+                rotation = Quaternion.identity
+            };
+            //_wsManager.SendPose(WebSocketManager.MessageType.MarkerPose, _markerPose.position, _markerPose.rotation);
+            _wssManager.SendPose(WebSocketServerManager.MessageType.MarkerPose, _markerPose.position, _markerPose.rotation);
+            _state = AppState.Stage;
         }
     }
 
     private void OnApplicationQuit()
     {
-        _wsManager.Close();
+        //_wsManager.Close();
+        _wssManager.ServerStop();
     }
 
-    private void _wsManager_OnOpen()
-    {
-        Debug.Log($"_wsManager_OnOpen");
-        EnableImageTracking();
-        _wsManager.SendAppReset();
-    }
+    //private void _wsManager_OnOpen()
+    //{
+    //    Debug.Log($"_wsManager_OnOpen");
+    //    EnableImageTracking();
+    //    _wsManager.SendAppReset();
+    //}
 
     public void EnableImageTracking()
     {
+        Debug.Log($"EnableImageTracking");
         Debug.Log($"1");
         _state = AppState.MarkerTracking;
         Debug.Log($"2");
@@ -132,7 +156,8 @@ public class NrealApp : MonoBehaviour
         var config = NRSessionManager.Instance.NRSessionBehaviour.SessionConfig;
         config.ImageTrackingMode = TrackableImageFindingMode.DISABLE;
         NRSessionManager.Instance.SetConfiguration(config);
-        _wsManager.SendPose(WebSocketManager.MessageType.MarkerPose, _markerPose.position, _markerPose.rotation);
+        //_wsManager.SendPose(WebSocketManager.MessageType.MarkerPose, _markerPose.position, _markerPose.rotation);
+        _wssManager.SendPose(WebSocketServerManager.MessageType.MarkerPose, _markerPose.position, _markerPose.rotation);
     }
 
     private void ImageTrack()

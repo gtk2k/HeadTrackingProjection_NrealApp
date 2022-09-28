@@ -23,14 +23,14 @@ public class WebSocketServerManager
     public enum MessageType : byte
     {
         None = 0,
-        ProjectorAppReset = 1,
+        AppReset = 1,
         MarkerPose = 2,
         PlayerPose = 3
     }
 
     private class WSSBehaviour : WebSocketBehavior
     {
-        public event Action<string> OnClientConnected;
+        public event Action<string, WebSocket> OnClientConnected;
         public event Action<string, byte[]> OnClientBinaryMessage;
         public event Action<string, string> OnClientTextMessage;
         public event Action<string, ushort, string> OnClientClosed;
@@ -38,7 +38,7 @@ public class WebSocketServerManager
 
         protected override void OnOpen()
         {
-            OnClientConnected?.Invoke(ID);
+            OnClientConnected?.Invoke(ID, Context.WebSocket);
         }
 
         protected override void OnMessage(MessageEventArgs e)
@@ -78,10 +78,11 @@ public class WebSocketServerManager
         });
     }
 
-    private void Behaviour_OnClientConnected(string id)
+    private void Behaviour_OnClientConnected(string id, WebSocket ws)
     {
         _ctx.Post(_ =>
         {
+            _clients.Add(id, ws);
             OnClientConnected?.Invoke(id);
         }, null);
     }
@@ -91,7 +92,7 @@ public class WebSocketServerManager
         _ctx.Post(_ =>
         {
             var type = (MessageType)data[0];
-            if (type == MessageType.ProjectorAppReset)
+            if (type == MessageType.AppReset)
             {
                 OnClientReset?.Invoke(id);
                 return;
@@ -150,6 +151,7 @@ public class WebSocketServerManager
     {
         _clients = new Dictionary<string, WebSocket>();
         _wss.Start();
+        Debug.Log("WebSocket Server Started");
     }
 
     public void ServerStop()
@@ -169,16 +171,27 @@ public class WebSocketServerManager
         _wss = null;
     }
 
-    public void SendAppReset(string id)
+    public void SendAppReset(string id = null)
     {
         Debug.Log($"SendAppReset()");
         var data = new byte[1];
-        data[0] = (byte)MessageType.ProjectorAppReset;
-        _clients[id].Send(data);
+        data[0] = (byte)MessageType.AppReset;
+        if (id == null)
+        {
+            foreach (var client in _clients.Values)
+            {
+                client.Send(data);
+            }
+        }
+        else
+        {
+            _clients[id].Send(data);
+        }
     }
 
-    public void SendPose(string id, MessageType type, Vector3 position, Quaternion rotation, Vector3 scale)
+    public void SendPose(MessageType type, Vector3 position, Quaternion rotation) //Vector3 scale)
     {
+        Debug.Log($"SendPose > {type}");
         var px = BitConverter.GetBytes(position.x);
         var py = BitConverter.GetBytes(position.y);
         var pz = BitConverter.GetBytes(position.z);
@@ -202,6 +215,9 @@ public class WebSocketServerManager
         //Buffer.BlockCopy(sy, 0, data, 33, 4);
         //Buffer.BlockCopy(sz, 0, data, 37, 4);
 
-        _clients[id].Send(data);
+        foreach(var client in _clients.Values)
+        {
+            client.Send(data);
+        }
     }
 }
