@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class NrealApp : MonoBehaviour
 {
     [SerializeField] private string _websocketUrl;
+    [SerializeField] private int _websocketPort = 9999;
+
     [SerializeField] private GameObject _centerAnchor;
     [SerializeField] private Button _resetButton;
     [SerializeField] private Button _imageTrackedButton;
@@ -13,7 +15,10 @@ public class NrealApp : MonoBehaviour
     private List<NRTrackableImage> _markers;
 
     private WebSocketManager _wsManager;
+    private WebSocketServerManager _wssManager;
     private Pose _markerPose;
+
+    // MarkerSize > W:57xH:57 Bottom:117
 
     private enum AppState
     {
@@ -27,9 +32,17 @@ public class NrealApp : MonoBehaviour
     {
         _markers = new List<NRTrackableImage>();
         _state = AppState.None;
+
         _wsManager = new WebSocketManager(_websocketUrl);
         _wsManager.OnOpen += _wsManager_OnOpen;
-        _wsManager.Connect();
+        _wsManager.OnClose += _wsManager_OnClose;
+        _wsManager.OnError += _wsManager_OnError;
+
+        _wssManager = new WebSocketServerManager(_websocketPort);
+        _wssManager.OnClientConnected += _wssManager_OnClientConnected;
+        _wssManager.OnClientClosed += _wssManager_OnClientClosed;
+        _wssManager.OnClientError += _wssManager_OnClientError;
+        _wssManager.ServerStart();
 
         // Debug
         _imageTrackedButton.onClick.AddListener(() =>
@@ -47,6 +60,31 @@ public class NrealApp : MonoBehaviour
             _wsManager.SendAppReset();
             _state = AppState.MarkerTracking;
         });
+    }
+
+    private void _wsManager_OnError(System.Exception ex)
+    {
+        Debug.Log($"_wsManager_OnError > {ex.Message}");
+    }
+
+    private void _wsManager_OnClose(ushort code, string reason)
+    {
+        Debug.Log($"_wsManager_OnClose > code: {code}, reason: {reason}");
+    }
+
+    private void _wssManager_OnClientError(string arg1, System.Exception arg2)
+    {
+        Debug.Log($"_wssManager_OnClientError");
+    }
+
+    private void _wssManager_OnClientClosed(string arg1, ushort arg2, string arg3)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    private void _wssManager_OnClientConnected(string id)
+    {
+        Debug.Log($"_wssManager_OnClientConnected > id:{id}");
     }
 
     private void Update()

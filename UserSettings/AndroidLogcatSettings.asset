@@ -1,72 +1,42 @@
 {
     "m_SelectedDeviceId": "M5AIKN006467A9J",
     "m_SelectedPackage": {
-        "deviceId": "M5AIKN006467A9J",
-        "name": "com.DefaultCompany.HeadTrackingProjection_NrealApp",
-        "processId": 18644,
+        "deviceId": "",
+        "name": "",
+        "processId": 0,
         "exited": false
     },
     "m_SelectedPriority": 0,
     "m_KnownPackagesForSerialization": [
         {
             "deviceId": "M5AIKN006467A9J",
+            "name": "ai.nreal.nebula.universal",
+            "processId": 12266,
+            "exited": false
+        },
+        {
+            "deviceId": "M5AIKN006467A9J",
             "name": "com.DefaultCompany.HeadTrackingProjection_NrealApp",
-            "processId": 12661,
+            "processId": 13586,
             "exited": true
         },
         {
             "deviceId": "M5AIKN006467A9J",
             "name": "com.DefaultCompany.HeadTrackingProjection_NrealApp",
-            "processId": 13057,
+            "processId": 14810,
             "exited": true
         },
         {
             "deviceId": "M5AIKN006467A9J",
             "name": "com.DefaultCompany.HeadTrackingProjection_NrealApp",
-            "processId": 13393,
+            "processId": 15240,
             "exited": true
         },
         {
             "deviceId": "M5AIKN006467A9J",
             "name": "com.DefaultCompany.HeadTrackingProjection_NrealApp",
-            "processId": 13650,
+            "processId": 16107,
             "exited": true
-        },
-        {
-            "deviceId": "M5AIKN006467A9J",
-            "name": "com.DefaultCompany.HeadTrackingProjection_NrealApp",
-            "processId": 14800,
-            "exited": false
-        },
-        {
-            "deviceId": "M5AIKN006467A9J",
-            "name": "com.DefaultCompany.HeadTrackingProjection_NrealApp",
-            "processId": 15812,
-            "exited": false
-        },
-        {
-            "deviceId": "M5AIKN006467A9J",
-            "name": "com.DefaultCompany.HeadTrackingProjection_NrealApp",
-            "processId": 16577,
-            "exited": false
-        },
-        {
-            "deviceId": "M5AIKN006467A9J",
-            "name": "com.DefaultCompany.HeadTrackingProjection_NrealApp",
-            "processId": 16891,
-            "exited": false
-        },
-        {
-            "deviceId": "M5AIKN006467A9J",
-            "name": "com.DefaultCompany.HeadTrackingProjection_NrealApp",
-            "processId": 18088,
-            "exited": false
-        },
-        {
-            "deviceId": "M5AIKN006467A9J",
-            "name": "com.DefaultCompany.HeadTrackingProjection_NrealApp",
-            "processId": 18644,
-            "exited": false
         }
     ],
     "m_Tags": {

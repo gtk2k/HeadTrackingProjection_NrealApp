@@ -518,7 +518,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b031b37cf5219041afef28833270f68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _websocketUrl: ws://192.168.68.146:9999
+  _websocketUrl: ws://192.168.68.128:9999
   _centerAnchor: {fileID: 2133802838}
   _resetButton: {fileID: 2101420899}
   _imageTrackedButton: {fileID: 1677356512}
